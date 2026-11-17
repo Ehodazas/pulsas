@@ -146,7 +146,7 @@ export const rhythmMarkup = () => {
     <ol class="rhythm__list">
       ${ordered
         .map(
-          (f) => `<li class="rhythm__row" data-rhythm-row="${f.id}">
+          (f) => `<li class="rhythm__row" data-rhythm-row="${f.id}" data-level="${f.intensity}">
             <p class="rhythm__name"><span class="rhythm__fmt">${esc(f.name)}</span><span class="rhythm__lvl">${pillMeter(f.intensity)}${calmness[f.intensity]} · ${f.duration} min</span></p>
             <svg class="rhythm__wave" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true" focusable="false">
               <path class="rhythm__base" d="M0 ${BASE}H${W}" />
