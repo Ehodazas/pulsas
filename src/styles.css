@@ -887,3 +887,15 @@ main:focus { outline: none; }
 .section--paper .wk__cap--hiit { fill: #d9472b; }
 .section--paper .wk__cap--functional { fill: #c48a74; }
 .week-strip__bar { width: 12px; margin-inline: auto; }
+
+/* Pricing on a soft peach band, so the cream sections do not run together (muted text 5.46:1, charcoal 12.03:1). */
+.pricing { background: #f9e9e1; }
+@media (min-width: 900px) {
+  .plan { border-radius: 14px; }
+  .plan:hover { background: var(--c-off); }
+}
+
+/* Phones: the rhythm arcs cross the athlete at this size, keep them as a faint hint only. */
+@media (max-width: 899px) {
+  .hero__arcs { opacity: 0.22; }
+}
