@@ -28,6 +28,10 @@ export const faq = [
     a: 'Taip. Pradėk nuo treniruočių, pažymėtų „Pradedantiesiems“, arba nuo Mobility. Kiekvienas pratimas turi lengvesnį variantą, o treneris visada mato, kaip sekasi.',
   },
   {
+    q: 'Kaip atrodo pirmoji treniruotė?',
+    a: 'Atvyk 10 min. anksčiau — treneris paklaus apie traumas ir patirtį. Pradedama 10 min. apšilimu, pagrindinėje dalyje kiekvienam pratimui parodomas lengvesnis variantas, o pabaigoje — tempimas. Niekas nevertina, kiek keli: pirmą kartą svarbiausia judėti patogiai.',
+  },
+  {
     q: 'Ką atsinešti?',
     a: 'Patogią sportinę aprangą, švarią avalynę salei, gertuvę ir rankšluostį. Įranga, kilimėliai ir volai — studijoje.',
   },

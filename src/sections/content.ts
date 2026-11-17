@@ -1,11 +1,12 @@
 // Data-driven rendering for hero preview, formats, coaches, pricing and practical info.
 
-import { coaches, coachById } from '../data/coaches';
-import { formats, formatById } from '../data/formats';
+import { coachById } from '../data/coaches';
+import { formatById } from '../data/formats';
 import { plans, pricingNote } from '../data/pricing';
 import { sessions, spotsLeft, type Session } from '../data/sessions';
-import { arrival, faq, studio } from '../data/studio';
-import { $, $$, DAYS, DAYS_ACC, DAYS_SHORT, endTime, esc, imgUrl, plural, srcset, todayIndex, toMinutes } from '../lib/util';
+import { studio } from '../data/studio';
+import { $, $$, DAYS, DAYS_ACC, DAYS_SHORT, endTime, esc, plural, todayIndex, toMinutes } from '../lib/util';
+import { arrivalMarkup, coachesMarkup, faqMarkup, formatsMarkup, hoursMarkup, pricingMarkup, rhythmMarkup } from './markup';
 import { openRegistration } from './registration';
 import { setTimetable } from './timetable';
 
@@ -78,47 +79,7 @@ export function renderNextUp() {
 
 export function renderFormats() {
   const el = $('[data-formats]');
-  const meter = (n: number) =>
-    `<span class="meter" aria-hidden="true">${[1, 2, 3, 4, 5].map((i) => `<i class="${i <= n ? 'on' : ''}"></i>`).join('')}</span>`;
-
-  el.innerHTML = `
-    <ul class="fmt-index" role="list">
-      ${formats
-        .map(
-          (f, i) => `<li><button class="fmt-index__btn" type="button" data-fmt-select="${f.id}" aria-controls="fmt-${f.id}" aria-expanded="${i === 0}">
-            <span class="fmt-index__name">${esc(f.name)}</span>
-            <span class="fmt-index__lt">${esc(f.ltName)}</span>
-          </button></li>`,
-        )
-        .join('')}
-    </ul>
-    <div class="fmt-stage">
-      ${formats
-        .map(
-          (f, i) => `<article class="fmt ${i === 0 ? 'is-active' : ''}" id="fmt-${f.id}" aria-labelledby="fmt-${f.id}-title">
-            <figure class="fmt__media">
-              <img src="${imgUrl(`${f.image.base}-${f.image.widths[0]}.webp`)}" srcset="${srcset(f.image.base, f.image.widths)}"
-                sizes="(min-width: 900px) 34vw, 100vw" alt="${esc(f.image.alt)}" loading="lazy" decoding="async" />
-            </figure>
-            <div class="fmt__body">
-              <h3 class="fmt__title" id="fmt-${f.id}-title">${esc(f.name)} <span>${esc(f.ltName)}</span></h3>
-              <p class="fmt__lead">${esc(f.lead)}</p>
-              <dl class="fmt__facts">
-                <div><dt>Kam</dt><dd>${esc(f.forWho)}</dd></div>
-                <div><dt>Treniruotėje</dt><dd>${esc(f.inSession)}</dd></div>
-                <div class="fmt__row">
-                  <div><dt>Intensyvumas</dt><dd>${meter(f.intensity)} <span>${esc(f.intensityLabel)}</span><span class="visually-hidden"> (${f.intensity} iš 5)</span></dd></div>
-                  <div><dt>Trukmė</dt><dd><span class="fmt__dur">${f.duration}</span> min</dd></div>
-                </div>
-              </dl>
-              <button class="btn btn--lime" type="button" data-fmt-schedule="${f.id}">
-                ${esc(f.name)} tvarkaraštis <span class="btn__arrow" aria-hidden="true">→</span>
-              </button>
-            </div>
-          </article>`,
-        )
-        .join('')}
-    </div>`;
+  el.innerHTML = formatsMarkup();
 
   const select = (id: string) => {
     $$('[data-fmt-select]', el).forEach((b) => b.setAttribute('aria-expanded', String(b.dataset.fmtSelect === id)));
@@ -130,7 +91,7 @@ export function renderFormats() {
     const sel = t.closest<HTMLElement>('[data-fmt-select]');
     const sch = t.closest<HTMLElement>('[data-fmt-schedule]');
     if (sel) select(sel.dataset.fmtSelect!);
-    if (sch) setTimetable({ format: sch.dataset.fmtSchedule as never, coach: 'all', level: 'all', onlyFree: false }, { scroll: true });
+    if (sch) showFormatSchedule(sch.dataset.fmtSchedule!);
   });
   // Hover preview on pointer devices
   el.addEventListener('pointerover', (e) => {
@@ -140,35 +101,25 @@ export function renderFormats() {
   });
 }
 
+const showFormatSchedule = (id: string) =>
+  setTimetable({ format: id as never, coach: 'all', level: 'all', onlyFree: false }, { scroll: true });
+
+/* ---------- Ritmo skalė ---------- */
+
+export function renderRhythm() {
+  const el = $('[data-rhythm]');
+  el.innerHTML = rhythmMarkup();
+  el.addEventListener('click', (e) => {
+    const go = (e.target as HTMLElement).closest<HTMLElement>('[data-rhythm-go]');
+    if (go) showFormatSchedule(go.dataset.rhythmGo!);
+  });
+}
+
 /* ---------- Coaches: expanding poster strips ---------- */
 
 export function renderCoaches() {
   const el = $('[data-coaches]');
-  el.innerHTML = coaches
-    .map((c, i) => {
-      const count = sessions.filter((s) => s.coach === c.id).length;
-      return `<article class="coach ${i === 0 ? 'is-open' : ''}" data-coach="${c.id}" aria-labelledby="coach-${c.id}-name">
-        <button class="coach__tab" type="button" data-coach-open="${c.id}" aria-expanded="${i === 0}" aria-controls="coach-${c.id}-body">
-          <span class="coach__tab-name">${esc(c.name)}</span>
-          <span class="coach__tab-role">${esc(c.role)}</span>
-        </button>
-        <figure class="coach__photo">
-          <img src="${imgUrl(c.image.src)}" width="${c.image.width}" height="${c.image.height}" alt="${esc(c.image.alt)}" loading="lazy" decoding="async" />
-        </figure>
-        <div class="coach__body" id="coach-${c.id}-body">
-          <p class="eyebrow">${esc(c.role)}</p>
-          <h3 class="coach__name" id="coach-${c.id}-name">${esc(c.name)}</h3>
-          <blockquote class="coach__quote">„${esc(c.quote)}“</blockquote>
-          <p class="coach__bio">${esc(c.bio)}</p>
-          <ul class="coach__focus">${c.focus.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
-          <p class="coach__formats">Veda: ${c.formats.map((f) => esc(formatById(f).name)).join(', ')}</p>
-          <button class="btn btn--outline-light btn--sm" type="button" data-coach-schedule="${c.id}">
-            ${count} ${plural(count, ['treniruotė', 'treniruotės', 'treniruočių'])} per savaitę <span class="btn__arrow" aria-hidden="true">→</span>
-          </button>
-        </div>
-      </article>`;
-    })
-    .join('');
+  el.innerHTML = coachesMarkup();
 
   el.addEventListener('click', (e) => {
     const t = e.target as HTMLElement;
@@ -191,19 +142,7 @@ export function renderCoaches() {
 export function renderPricing() {
   $('[data-pricing-note]').innerHTML = `<strong>Demo kainos.</strong> ${esc(pricingNote)}`;
   const el = $('[data-pricing]');
-  el.innerHTML = plans
-    .map(
-      (p) => `<article class="plan" aria-labelledby="plan-${p.id}">
-        <div class="plan__head">
-          <h3 class="plan__name" id="plan-${p.id}">${esc(p.name)}</h3>
-          <p class="plan__summary">${esc(p.summary)}</p>
-        </div>
-        <p class="plan__price"><span class="plan__amount">${p.price}</span><span class="plan__cur">€</span><span class="plan__unit">${esc(p.unit)}</span><span class="plan__demo">Demo</span></p>
-        <ul class="plan__list">${p.includes.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
-        <button class="btn btn--ink plan__cta" type="button" data-plan="${p.id}">${esc(p.cta)} <span class="btn__arrow" aria-hidden="true">→</span></button>
-      </article>`,
-    )
-    .join('');
+  el.innerHTML = pricingMarkup();
   el.addEventListener('click', (e) => {
     const b = (e.target as HTMLElement).closest<HTMLElement>('[data-plan]');
     const plan = plans.find((p) => p.id === b?.dataset.plan);
@@ -214,26 +153,17 @@ export function renderPricing() {
 /* ---------- Practical info + FAQ ---------- */
 
 export function renderInfo() {
-  $('[data-arrival]').innerHTML = arrival
-    .map((a) => `<li class="arrival__item"><h3>${esc(a.title)}</h3><p>${esc(a.text)}</p></li>`)
-    .join('');
+  $('[data-arrival]').innerHTML = arrivalMarkup();
   $('[data-studio-city]').textContent = `${studio.location.city} · demo vieta`;
   $('[data-studio-location-note]').textContent = studio.location.note;
-  $('[data-hours]').innerHTML = studio.hours.map((h) => `<div><dt>${esc(h.days)}</dt><dd>${esc(h.time)}</dd></div>`).join('');
+  $('[data-hours]').innerHTML = hoursMarkup();
   $('[data-hours-note]').textContent = studio.hoursNote;
   const link = $<HTMLAnchorElement>('[data-studio-email-link]');
   link.href = `mailto:${studio.email}`;
   link.textContent = studio.email;
   $$('[data-studio-email]').forEach((e) => (e.textContent = studio.email));
 
-  $('[data-faq]').innerHTML = faq
-    .map(
-      (f) => `<details class="faq__item">
-        <summary><span>${esc(f.q)}</span><i aria-hidden="true"></i></summary>
-        <div class="faq__a"><p>${esc(f.a)}</p>${'sample' in f && f.sample ? '<p class="faq__sample">Pavyzdinė taisyklė</p>' : ''}</div>
-      </details>`,
-    )
-    .join('');
+  $('[data-faq]').innerHTML = faqMarkup();
 
   $('[data-question]').addEventListener('click', (e) => openRegistration({ kind: 'question' }, e.currentTarget as HTMLElement));
   $('[data-year]').textContent = String(new Date().getFullYear());

@@ -1,5 +1,5 @@
 import './styles.css';
-import { renderCoaches, renderFormats, renderInfo, renderNextUp, renderPricing } from './sections/content';
+import { renderCoaches, renderFormats, renderInfo, renderNextUp, renderPricing, renderRhythm } from './sections/content';
 import { initRegistration } from './sections/registration';
 import { initTimetable } from './sections/timetable';
 import { $, $$, prefersReducedMotion } from './lib/util';
@@ -8,6 +8,7 @@ initRegistration();
 initTimetable();
 renderNextUp();
 renderFormats();
+renderRhythm();
 renderCoaches();
 renderPricing();
 renderInfo();
@@ -48,7 +49,7 @@ document.addEventListener('keydown', (e) => {
 window.matchMedia('(min-width: 1180px)').addEventListener('change', (m) => m.matches && setMenu(false));
 
 /* ---------- Reveal on scroll ---------- */
-const revealEls = $$('[data-reveal], .section-head, .plan, .principle, .arrival__item, .studio__poster, .studio__detail');
+const revealEls = $$('[data-reveal], .section-head, .plan, .principle, .arrival__item, .studio__poster, .studio__detail, .rhythm__row');
 if (prefersReducedMotion() || !('IntersectionObserver' in window)) {
   revealEls.forEach((el) => el.classList.add('is-in'));
 } else {

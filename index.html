@@ -3,24 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>PULSAS — funkcinio treniravimo studija</title>
-    <meta name="description" content="PULSAS — butikinė funkcinio ir grupinio treniravimo studija. Functional, Strength, HIIT ir Mobility treniruotės su treneriu, aiškus savaitės tvarkaraštis ir registracija internetu. Demonstracinis projektas." />
+    <title>PULSAS — butikinė funkcinio treniravimo studija (demo)</title>
+    <meta name="description" content="PULSAS — butikinė grupinių treniruočių studija: Functional, Strength, HIIT ir Mobility su treneriu, grupės iki 14 žmonių, savaitės tvarkaraštis ir registracijos užklausa. Demonstracinis portfolio projektas." />
+    <link rel="canonical" href="https://ehodazas.github.io/pulsas/" />
     <meta name="theme-color" content="#101210" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="lt_LT" />
+    <meta property="og:site_name" content="PULSAS" />
+    <meta property="og:url" content="https://ehodazas.github.io/pulsas/" />
     <meta property="og:title" content="PULSAS — judėk savo ritmu" />
-    <meta property="og:description" content="Butikinė funkcinio treniravimo studija: jėga, intervalai ir mobilumas su treneriu. Demonstracinis projektas." />
-    <meta property="og:image" content="/og-image.jpg" />
+    <meta property="og:description" content="Butikinė funkcinio treniravimo studija: jėga, intervalai ir mobilumas su treneriu, grupės iki 14 žmonių. Demonstracinis projektas." />
+    <meta property="og:image" content="https://ehodazas.github.io/pulsas/og-image.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="PULSAS logotipas ir užrašas „Judėk savo ritmu“ ant treniruotės su virvėmis nuotraukos" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="PULSAS — judėk savo ritmu" />
+    <meta name="twitter:description" content="Butikinė funkcinio treniravimo studija: jėga, intervalai ir mobilumas su treneriu. Demonstracinis projektas." />
+    <meta name="twitter:image" content="https://ehodazas.github.io/pulsas/og-image.jpg" />
+    <meta name="twitter:image:alt" content="PULSAS logotipas ir užrašas „Judėk savo ritmu“ ant treniruotės su virvėmis nuotraukos" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,300..900;1,62..125,300..900&display=swap" rel="stylesheet" />
-    <link rel="preload" as="image" href="/img/hero-1024.webp" imagesrcset="/img/hero-640.webp 640w, /img/hero-1024.webp 1024w" imagesizes="(min-width: 900px) 46vw, 100vw" />
+    <link rel="preload" as="image" media="(max-width: 899px)" href="img/hero-m-1000.webp" imagesrcset="img/hero-m-640.webp 640w, img/hero-m-1000.webp 1000w, img/hero-m-1400.webp 1400w" imagesizes="100vw" fetchpriority="high" />
+    <link rel="preload" as="image" media="(min-width: 900px)" href="img/hero-1100.webp" imagesrcset="img/hero-720.webp 720w, img/hero-1100.webp 1100w, img/hero-1500.webp 1500w" imagesizes="46vw" fetchpriority="high" />
   </head>
   <body>
     <a class="skip-link" href="#turinys">Pereiti prie turinio</a>
@@ -72,13 +82,16 @@
             <span class="hero__line">ritmu<span class="hero__dot">.</span></span>
           </h1>
           <figure class="hero__media">
-            <img
-              src="/img/hero-1024.webp"
-              srcset="/img/hero-640.webp 640w, /img/hero-1024.webp 1024w"
-              sizes="(min-width: 900px) 46vw, 100vw"
-              width="1024" height="964"
-              alt="Trys sportininkai su medicininiais kamuoliais funkcinės treniruotės metu"
-              fetchpriority="high" />
+            <picture>
+              <source media="(min-width: 900px)" srcset="/img/hero-720.webp 720w, /img/hero-1100.webp 1100w, /img/hero-1500.webp 1500w" sizes="46vw" width="1500" height="1875" />
+              <img
+                src="/img/hero-m-1000.webp"
+                srcset="/img/hero-m-640.webp 640w, /img/hero-m-1000.webp 1000w, /img/hero-m-1400.webp 1400w"
+                sizes="100vw"
+                width="1400" height="919"
+                alt="Du sportininkai intensyviai mojuoja treniruočių virvėmis tamsioje salėje"
+                fetchpriority="high" />
+            </picture>
           </figure>
           <div class="hero__copy">
             <p class="hero__lead">Grupinės treniruotės su treneriu iki keturiolikos žmonių. Jėga, ištvermė ir mobilumas — su aiškia struktūra ir žmonėmis, kurie laukia tavęs kitą savaitę.</p>
@@ -105,7 +118,8 @@
           <h2 class="display-2" id="formats-title">Keturi formatai.<br />Vienas tikslas — kad grįžtum.</h2>
           <p class="section-head__text">Kiekviena treniruotė turi aiškią struktūrą: apšilimas, pagrindinė dalis, atsistatymas. Rinkis pagal tai, ko šiandien reikia tavo kūnui.</p>
         </header>
-        <div class="formats__layout" data-formats></div>
+        <div class="formats__layout" data-formats><!--prerender:formats--></div>
+        <section class="rhythm" aria-labelledby="rhythm-title" data-rhythm><!--prerender:rhythm--></section>
       </section>
 
       <!-- ============ TIMETABLE ============ -->
@@ -129,13 +143,13 @@
           </div>
           <p class="demo-note demo-note--dark" role="note">Iliustraciniai profiliai — vardai ir nuotraukos skirti demonstracijai.</p>
         </header>
-        <div class="coaches__row" data-coaches></div>
+        <div class="coaches__row" data-coaches><!--prerender:coaches--></div>
       </section>
 
       <!-- ============ STUDIO ============ -->
       <section class="studio" id="studija" aria-labelledby="studio-title">
         <div class="studio__hero">
-          <img class="studio__img" src="/img/studio-wide-900.webp" srcset="/img/studio-wide-560.webp 560w, /img/studio-wide-900.webp 900w" sizes="(min-width: 900px) 62vw, 100vw" width="900" height="630" loading="lazy" decoding="async" alt="Studijos salė su svorių stovais, hanteliais ir veidrodžiais" />
+          <img class="studio__img" src="/img/studio-wide-800.webp" srcset="/img/studio-wide-800.webp 800w, /img/studio-wide-1400.webp 1400w" sizes="(min-width: 900px) 62vw, 100vw" width="1400" height="933" loading="lazy" decoding="async" alt="Tuščia jėgos zona: du štangų stovai, diskai ir štanga ant guminės dangos" />
           <div class="studio__poster">
             <p class="eyebrow">Studija</p>
             <h2 class="display-2" id="studio-title">Ne sporto klubas.<br />Treniruočių vieta.</h2>
@@ -158,7 +172,7 @@
             </article>
           </div>
           <figure class="studio__detail">
-            <img src="/img/studio-detail-670.webp" srcset="/img/studio-detail-420.webp 420w, /img/studio-detail-670.webp 670w" sizes="(min-width: 900px) 30vw, 100vw" width="670" height="560" loading="lazy" decoding="async" alt="Svorių diskai ant stovo ir treniruočių suolas" />
+            <img src="/img/studio-detail-480.webp" srcset="/img/studio-detail-480.webp 480w, /img/studio-detail-800.webp 800w" sizes="(min-width: 900px) 30vw, 100vw" width="800" height="667" loading="lazy" decoding="async" alt="Eilė juodų girių ant salės grindų" />
             <figcaption>
               <span class="eyebrow">Įranga</span>
               Štangos ir diskai · Girios · Medicininiai kamuoliai · Irklavimo ir dviračių treniruokliai · Žiedai ir skersinis · Kilimėliai ir volai
@@ -176,7 +190,7 @@
           </div>
           <p class="demo-note" role="note" data-pricing-note></p>
         </header>
-        <div class="plans" data-pricing></div>
+        <div class="plans" data-pricing><!--prerender:pricing--></div>
         <p class="footnote">* Pavyzdinė sąlyga — prieš paleidžiant svetainę patikslinkite pagal tikrąsias studijos taisykles.</p>
       </section>
 
@@ -187,7 +201,7 @@
           <h2 class="display-2" id="info-title">Pirmą kartą?<br />Štai ką verta žinoti.</h2>
         </header>
         <div class="info__grid">
-          <ol class="arrival" data-arrival></ol>
+          <ol class="arrival" data-arrival><!--prerender:arrival--></ol>
           <div class="info__facts">
             <div class="fact">
               <h3 class="eyebrow">Vieta</h3>
@@ -196,7 +210,7 @@
             </div>
             <div class="fact">
               <h3 class="eyebrow">Darbo laikas</h3>
-              <dl class="hours" data-hours></dl>
+              <dl class="hours" data-hours><!--prerender:hours--></dl>
               <p class="fact__muted" data-hours-note></p>
             </div>
             <div class="fact">
@@ -208,7 +222,7 @@
         </div>
         <div class="faq">
           <h3 class="faq__title display-3">Dažni klausimai</h3>
-          <div class="faq__list" data-faq></div>
+          <div class="faq__list" data-faq><!--prerender:faq--></div>
         </div>
       </section>
     </main>

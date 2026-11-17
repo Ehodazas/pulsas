@@ -13,7 +13,7 @@ export interface Coach {
   quote: string;
   bio: string;
   formats: FormatId[];
-  image: { src: string; width: number; height: number; alt: string };
+  image: { base: string; widths: number[]; alt: string };
 }
 
 export const coaches: Coach[] = [
@@ -25,7 +25,7 @@ export const coaches: Coach[] = [
     quote: 'Pirmiausia — kaip judi. Tik tada — kiek keli.',
     bio: 'Veda funkcines ir mobilumo treniruotes. Ypač mėgsta dirbti su tais, kurie į salę grįžta po ilgos pertraukos.',
     formats: ['functional', 'mobility'],
-    image: { src: 'coach-1-360.webp', width: 360, height: 640, alt: 'Trenerė Ieva su medicininiu kamuoliu' },
+    image: { base: 'coach-ieva', widths: [480, 800], alt: 'Trenerė Ieva šypsosi, viena ranka laikydama laipiojimo virvę' },
   },
   {
     id: 'lukas',
@@ -35,7 +35,7 @@ export const coaches: Coach[] = [
     quote: 'Stiprybė auga iš nuobodžių, gerai atliktų pakartojimų.',
     bio: 'Atsakingas už jėgos programą: kiekvienas ciklas trunka kelias savaites, kad progresas būtų matomas ir saugus.',
     formats: ['strength', 'functional'],
-    image: { src: 'coach-2-320.webp', width: 320, height: 570, alt: 'Treneris Lukas laiko medicininį kamuolį' },
+    image: { base: 'coach-lukas', widths: [480, 800], alt: 'Treneris Lukas baltais marškinėliais be rankovių, portretas tamsiame fone' },
   },
   {
     id: 'dovydas',
@@ -45,7 +45,7 @@ export const coaches: Coach[] = [
     quote: 'Sunku gali būti smagu, kai žinai, kodėl tai darai.',
     bio: 'Kuria intervalų treniruotes, kuriose kiekvienas randa savo tempą — nuo lengvesnio varianto iki maksimumo.',
     formats: ['hiit', 'functional'],
-    image: { src: 'coach-3-460.webp', width: 460, height: 818, alt: 'Treneris Dovydas atlieka mostą su gira' },
+    image: { base: 'coach-dovydas', widths: [480, 800], alt: 'Treneris Dovydas juodais marškinėliais prie betoninės sienos' },
   },
 ];
 

@@ -7,7 +7,8 @@ It is a static site built with Vite and vanilla TypeScript, with no runtime fram
 
 ## Stack
 
-- **Vite 6 + TypeScript.** The production bundle is about 13 kB JS and 9 kB CSS (gzipped).
+- **Vite 6 + TypeScript.** The production bundle is about 14 kB JS and 9 kB CSS (gzipped).
+- **Build-time prerender** (`scripts/prerender.mjs`). After `vite build`, the same markup builders the app uses at runtime (`src/sections/markup.ts`) fill the formats, rhythm scale, coaches, prices, arrival tips, hours and FAQ into `dist/index.html`. Crawlers and visitors without JS get real content. The timetable stays client-side.
 - **Archivo** (Google Fonts, variable `wdth` + `wght`). One family covers the condensed display type and the readable body text, with full Lithuanian character support.
 - The base path is relative (`./`), so the build works under any GitHub Pages subpath without changes.
 
@@ -16,7 +17,7 @@ It is a static site built with Vite and vanilla TypeScript, with no runtime fram
 ```bash
 npm install
 npm run dev        # http://localhost:5173
-npm run build      # type-check + production build into dist/
+npm run build      # type-check + production build + prerender into dist/
 npm run preview    # serve dist/ locally
 ```
 
@@ -26,7 +27,7 @@ All demo content lives in `src/data/`. Each file feeds every part of the site th
 
 | File | Contents |
 | --- | --- |
-| `formats.ts` | The 4 training formats: copy, intensity (1–5), duration, images |
+| `formats.ts` | The 4 training formats: copy, intensity (1–5), duration, images, and the illustrative **rhythm** used by the Ritmo skalė |
 | `sessions.ts` | **One weekly timetable** shared by the hero "next session" card, the day tabs, the filters, the week view and the registration prefill. Capacity is illustrative. |
 | `coaches.ts` | The 3 illustrative coach profiles |
 | `pricing.ts` | The 3 membership options (demo prices) |
@@ -50,15 +51,21 @@ The site has no booking backend, so the form sends an **inquiry**. It never clai
 2. Go to Settings → Pages → Source and choose **GitHub Actions**.
 3. `.github/workflows/deploy.yml` builds and publishes `dist/` on every push to `main`.
 
-Before launch, change the `og:image` / `og:url` tags in `index.html` to absolute URLs on your domain, because social crawlers need absolute image URLs.
+`canonical`, `og:url`, `og:image` and `twitter:image` in `index.html` are absolute URLs on `https://ehodazas.github.io/pulsas/`. Change them if the site moves to another domain.
 
 ## Images
 
-The source photos are in `photos-src/`. `npm run images` (sharp) crops them and writes optimized WebP derivatives to `public/img/`. You only need to run it again when the source photos change.
+The site uses ten distinct, licensed photos: one each for the hero, the four formats and the two studio shots, plus three coach portraits. No photo is reused anywhere on the page. Sources, photographers and license notes are in [`photos-src/SOURCES.md`](photos-src/SOURCES.md).
 
-**Licensing:** the client provided these photos as reference and mood material. Some of them show third-party brand marks on clothing and equipment. Before any public or commercial use, replace them with photos you have the rights to (your own shoot, or properly licensed stock). Keep the same file names, or edit the crop list in `scripts/prepare-images.mjs`.
+`npm run images` (sharp) crops the sources in `photos-src/`, applies one shared colour grade and writes responsive WebP files to `public/img/`. It also writes the 1200×630 social card `public/og-image.jpg`. The hero is art-directed through `<picture>`, with a portrait crop on desktop and a landscape crop on phones, and is preloaded. All other images are lazy-loaded.
+
+The coach portraits are stock photos of models standing in for illustrative profiles. Replace them with photos of the real coaches before any real use.
 
 If an image fails to load, its frame shows a neutral pattern, so the layout does not shift.
+
+## Ritmo skalė
+
+The rhythm scale under the formats compares the four formats as pulse lines drawn in the same style as the logo. Each line shows how a class is structured, meaning when people work and when they recover, along with tempo, group size (read from the timetable data) and how suitable the format is for beginners. The lines are **illustrative**. They do not measure heart rate or any other physiological value, and the page says so. Each line draws once when it scrolls into view and stays static under `prefers-reduced-motion`.
 
 ## Accessibility & motion
 

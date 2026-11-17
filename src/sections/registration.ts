@@ -225,7 +225,8 @@ function render(ctx: RegContext) {
     dialog.querySelector('[data-reg-retry]')?.addEventListener('click', () => render(ctx));
   });
 
-  requestAnimationFrame(() => $<HTMLInputElement>('#reg-name', dialog).focus());
+  // The form may already be replaced by a result view (fast submit), so look the field up defensively.
+  requestAnimationFrame(() => dialog.querySelector<HTMLInputElement>('#reg-name')?.focus());
 }
 
 export function openRegistration(ctx: RegContext, trigger?: HTMLElement | null) {
