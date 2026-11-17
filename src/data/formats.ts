@@ -38,7 +38,7 @@ export const formats: TrainingFormat[] = [
     forWho:
       'Tiems, kas nori kasdien jaustis stipresni: kelti, nešti, pasisukti ir pašokti be įtampos nugaroje.',
     inSession:
-      '10 min. apšilimas, 35 min. darbo stotelėmis (hanteliai, girios, savo svoris), 10 min. tempimas. Kiekvienas pratimas turi lengvesnį variantą.',
+      '10 min. apšilimas, 35 min. darbo stotelėmis (medicininiai kamuoliai, girios, hanteliai, savo svoris), 10 min. tempimas. Kiekvienas pratimas turi lengvesnį variantą.',
     intensity: 3,
     intensityLabel: 'Vidutinis',
     duration: 55,
@@ -48,7 +48,7 @@ export const formats: TrainingFormat[] = [
       structure: 'Stotelės ratu, trumpi perėjimai',
       beginners: 'Tinka — su lengvesniais variantais',
     },
-    image: { base: 'fmt-functional', widths: [560, 960], alt: 'Grupė atlieka įtūpstus su hanteliais ant kilimėlių plytų sienų salėje' },
+    image: { base: 'fmt-functional', widths: [560, 960], alt: 'Treneris kartu su kliente atlieka pratimą su medicininiais kamuoliais' },
   },
   {
     id: 'strength',
