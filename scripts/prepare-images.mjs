@@ -10,7 +10,7 @@ mkdirSync(OUT, { recursive: true });
 /**
  * One shared grade keeps ten photos from four photographers reading as one campaign:
  * slightly muted colour, a touch more contrast, and a faint warm balance.
- * Coaches are printed in monochrome (the strips tint them with the brand lime on hover).
+ * Coaches are printed in monochrome (the strips tint them with the cream paper tone on hover).
  */
 const grade = (img) => img.modulate({ saturation: 0.8 }).linear([1.07, 1.06, 1.02], [-6, -7, -9]);
 const mono = (img) => img.grayscale().linear(1.12, -12);
@@ -48,12 +48,12 @@ const ogPhoto = await grade(
   sharp('photos-src/hero-box-plyometrics.jpg').extract({ left: 0, top: 170, width: 2400, height: 1260 }).resize(1200, 630),
 ).toBuffer();
 const ogText = Buffer.from(`<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
-  <defs><linearGradient id="g" x1="1" x2="0"><stop offset="0" stop-color="#141311" stop-opacity="0.92"/><stop offset="0.62" stop-color="#141311" stop-opacity="0.35"/><stop offset="1" stop-color="#141311" stop-opacity="0"/></linearGradient></defs>
+  <defs><linearGradient id="g" x1="1" x2="0"><stop offset="0" stop-color="#242B28" stop-opacity="0.92"/><stop offset="0.62" stop-color="#242B28" stop-opacity="0.35"/><stop offset="1" stop-color="#242B28" stop-opacity="0"/></linearGradient></defs>
   <rect width="1200" height="630" fill="url(#g)"/>
-  <path transform="translate(882 0)" d="M64 92h40l18-46 30 86 20-60 10 20h60" fill="none" stroke="#C7FF3D" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
-  <text x="1136" y="420" text-anchor="end" font-family="Arial Narrow, Arial, sans-serif" font-weight="900" font-size="150" fill="#EFE9DD" letter-spacing="-4">PULSAS</text>
-  <text x="1132" y="492" text-anchor="end" font-family="Arial, sans-serif" font-weight="700" font-size="34" fill="#C7FF3D">Judėk savo ritmu.</text>
-  <text x="1132" y="560" text-anchor="end" font-family="Arial, sans-serif" font-size="24" fill="#EFE9DD" opacity="0.75">Funkcinio treniravimo studija · demonstracinis projektas</text>
+  <path transform="translate(882 0)" d="M64 92h40l18-46 30 86 20-60 10 20h60" fill="none" stroke="#F16B45" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+  <text x="1136" y="420" text-anchor="end" font-family="Arial Narrow, Arial, sans-serif" font-weight="900" font-size="150" fill="#F3EFE6" letter-spacing="-4">PULSAS</text>
+  <text x="1132" y="492" text-anchor="end" font-family="Arial, sans-serif" font-weight="700" font-size="34" fill="#F16B45">Judėk savo ritmu.</text>
+  <text x="1132" y="560" text-anchor="end" font-family="Arial, sans-serif" font-size="24" fill="#F3EFE6" opacity="0.75">Funkcinio treniravimo studija · demonstracinis projektas</text>
 </svg>`);
 await sharp(ogPhoto).composite([{ input: ogText }]).jpeg({ quality: 82, mozjpeg: true }).toFile('public/og-image.jpg');
 console.log('✓ og-image');

@@ -9,9 +9,6 @@ import { sessions } from '../data/sessions';
 import { arrival, faq, studio } from '../data/studio';
 import { esc, imgUrl, plural, srcset } from '../lib/util';
 
-const meter = (n: number) =>
-  `<span class="meter" aria-hidden="true">${[1, 2, 3, 4, 5].map((i) => `<i class="${i <= n ? 'on' : ''}"></i>`).join('')}</span>`;
-
 /** Largest group size for a format, read from the shared timetable. */
 const groupSize = (id: TrainingFormat['id']) => Math.max(...sessions.filter((s) => s.format === id).map((s) => s.capacity));
 
@@ -41,11 +38,11 @@ export const formatsMarkup = () => `
                 <div><dt>Kam</dt><dd>${esc(f.forWho)}</dd></div>
                 <div><dt>Treniruotėje</dt><dd>${esc(f.inSession)}</dd></div>
                 <div class="fmt__row">
-                  <div><dt>Intensyvumas</dt><dd>${meter(f.intensity)} <span>${esc(f.intensityLabel)}</span><span class="visually-hidden"> (${f.intensity} iš 5)</span></dd></div>
+                  <div><dt>Intensyvumas</dt><dd>${pillMeter(f.intensity)} <span>${esc(f.intensityLabel)}</span><span class="visually-hidden"> (${f.intensity} iš 5)</span></dd></div>
                   <div><dt>Trukmė</dt><dd><span class="fmt__dur">${f.duration}</span> min</dd></div>
                 </div>
               </dl>
-              <button class="btn btn--lime" type="button" data-fmt-schedule="${f.id}">
+              <button class="btn btn--accent" type="button" data-fmt-schedule="${f.id}">
                 ${esc(f.name)} tvarkaraštis <span class="btn__arrow" aria-hidden="true">→</span>
               </button>
             </div>
@@ -88,6 +85,56 @@ export function wavePath(beats: [number, number][]): string {
 
 const calmness = ['', 'Ramu', 'Lengviau', 'Vidutiniškai', 'Intensyviau', 'Intensyvu'];
 
+/* ---------- Savaitės ritmas: the brand motif ----------
+   Every session in the sample week is one vertical capsule; its height follows the format's
+   (illustrative) intensity, its colour the format. Days are separated by wider gaps, so the week
+   reads as a rhythm. Drawn from the shared timetable data — not decoration, not an ECG trace. */
+
+const pillMeter = (n: number) =>
+  `<span class="pills" aria-hidden="true">${[1, 2, 3, 4, 5].map((i) => `<i class="${i <= n ? 'on' : ''}"></i>`).join('')}</span>`;
+
+const DAY_LABELS = ['Pr', 'An', 'Tr', 'Kt', 'Pn', 'Št', 'Sk'];
+
+export function weekRhythmSvg({ height = 220, labels = true, cls = '' } = {}): string {
+  const capW = 16;
+  const gap = 10;
+  const dayGap = 42;
+  const top = 6;
+  const labelH = labels ? 34 : 0;
+  const base = height - labelH;
+  const byDay = DAY_LABELS.map((_, d) =>
+    sessions.filter((s) => s.day === d).sort((a, b) => a.start.localeCompare(b.start)),
+  );
+  let x = 0;
+  const caps: string[] = [];
+  const marks: string[] = [];
+  byDay.forEach((list, d) => {
+    const start = x;
+    list.forEach((s, i) => {
+      const f = formatById(s.format);
+      const h = Math.round((0.22 + (f.intensity / 5) * 0.78) * (base - top));
+      caps.push(
+        `<rect class="wk__cap wk__cap--${f.id}" x="${x}" y="${base - h}" width="${capW}" height="${h}" rx="${capW / 2}" style="--i:${d * 6 + i}" />`,
+      );
+      x += capW + (i < list.length - 1 ? gap : 0);
+    });
+    if (labels) marks.push(`<text class="wk__day" x="${(start + x) / 2}" y="${height - 6}" text-anchor="middle">${DAY_LABELS[d]}</text>`);
+    x += dayGap;
+  });
+  const w = x - dayGap;
+  return `<svg class="wk ${cls}" viewBox="0 0 ${w} ${height}" role="presentation" aria-hidden="true" focusable="false">${caps.join('')}${marks.join('')}</svg>`;
+}
+
+export const footerRhythmMarkup = () => `
+  ${weekRhythmSvg({ height: 240, labels: true, cls: 'wk--footer' })}
+  <p class="wk__legend">
+    <span><i class="wk__key wk__key--mobility"></i>Mobility</span>
+    <span><i class="wk__key wk__key--functional"></i>Functional</span>
+    <span><i class="wk__key wk__key--strength"></i>Strength</span>
+    <span><i class="wk__key wk__key--hiit"></i>HIIT</span>
+    <span class="wk__legend-note">Savaitės ritmas: kiekviena kapsulė — viena treniruotė, aukštis — iliustracinis intensyvumas.</span>
+  </p>`;
+
 export const rhythmMarkup = () => {
   const ordered = [...formats].sort((a, b) => a.intensity - b.intensity || a.duration - b.duration);
   return `
@@ -100,7 +147,7 @@ export const rhythmMarkup = () => {
       ${ordered
         .map(
           (f) => `<li class="rhythm__row" data-rhythm-row="${f.id}">
-            <p class="rhythm__name"><span class="rhythm__fmt">${esc(f.name)}</span><span class="rhythm__lvl">${calmness[f.intensity]} · ${f.duration} min</span></p>
+            <p class="rhythm__name"><span class="rhythm__fmt">${esc(f.name)}</span><span class="rhythm__lvl">${pillMeter(f.intensity)}${calmness[f.intensity]} · ${f.duration} min</span></p>
             <svg class="rhythm__wave" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true" focusable="false">
               <path class="rhythm__base" d="M0 ${BASE}H${W}" />
               <path class="rhythm__line" pathLength="1" d="${wavePath(f.rhythm.beats)}" />
@@ -187,4 +234,6 @@ export const prerenderTargets: Record<string, () => string> = {
   arrival: arrivalMarkup,
   hours: hoursMarkup,
   faq: faqMarkup,
+  ttRhythm: () => weekRhythmSvg({ height: 64, labels: false, cls: 'wk--mini' }),
+  footerRhythm: footerRhythmMarkup,
 };

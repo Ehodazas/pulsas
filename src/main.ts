@@ -49,7 +49,7 @@ document.addEventListener('keydown', (e) => {
 window.matchMedia('(min-width: 1180px)').addEventListener('change', (m) => m.matches && setMenu(false));
 
 /* ---------- Reveal on scroll ---------- */
-const revealEls = $$('[data-reveal], .section-head, .plan, .principle, .arrival__item, .studio__poster, .studio__detail, .rhythm__row');
+const revealEls = $$('[data-reveal], .section-head, .plan, .principle, .arrival__item, .studio__poster, .studio__detail, .rhythm__row, .wk');
 if (prefersReducedMotion() || !('IntersectionObserver' in window)) {
   revealEls.forEach((el) => el.classList.add('is-in'));
 } else {

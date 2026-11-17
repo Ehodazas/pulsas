@@ -6,7 +6,7 @@ import { plans, pricingNote } from '../data/pricing';
 import { sessions, spotsLeft, type Session } from '../data/sessions';
 import { studio } from '../data/studio';
 import { $, $$, DAYS, DAYS_ACC, DAYS_SHORT, endTime, esc, plural, todayIndex, toMinutes } from '../lib/util';
-import { arrivalMarkup, coachesMarkup, faqMarkup, formatsMarkup, hoursMarkup, pricingMarkup, rhythmMarkup } from './markup';
+import { arrivalMarkup, coachesMarkup, faqMarkup, footerRhythmMarkup, formatsMarkup, hoursMarkup, pricingMarkup, rhythmMarkup, weekRhythmSvg } from './markup';
 import { openRegistration } from './registration';
 import { setTimetable } from './timetable';
 
@@ -107,6 +107,10 @@ const showFormatSchedule = (id: string) =>
 /* ---------- Ritmo skalė ---------- */
 
 export function renderRhythm() {
+  // Week-rhythm motif (timetable head + footer), drawn from the shared timetable data.
+  $('[data-tt-rhythm]').innerHTML = weekRhythmSvg({ height: 64, labels: false, cls: 'wk--mini' });
+  $('[data-footer-rhythm]').innerHTML = footerRhythmMarkup();
+
   const el = $('[data-rhythm]');
   el.innerHTML = rhythmMarkup();
   el.addEventListener('click', (e) => {
