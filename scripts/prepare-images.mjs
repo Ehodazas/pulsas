@@ -19,7 +19,7 @@ const mono = (img) => img.grayscale().linear(1.12, -12);
 const jobs = [
   // Hero: portrait crop for the desktop column, landscape crop for phones (served via <picture>).
   { name: 'hero', src: 'hero-box-plyometrics.jpg', crop: { left: 120, top: 0, width: 1280, height: 1600 }, widths: [720, 1100, 1280] },
-  { name: 'hero-m', src: 'hero-box-plyometrics.jpg', crop: { left: 0, top: 25, width: 2400, height: 1575 }, widths: [640, 1000, 1400] },
+  { name: 'hero-m', src: 'hero-box-plyometrics.jpg', crop: { left: 0, top: 360, width: 1600, height: 1000 }, widths: [640, 1000, 1400] },
   // Formats: square crops survive both the 4:3 (mobile) and 4:5 (desktop) frames.
   { name: 'fmt-functional', src: 'functional-medball-coaching.jpg', crop: { left: 520, top: 0, width: 1600, height: 1600 }, widths: [560, 960] },
   { name: 'fmt-strength', src: 'strength-back-squat.jpg', crop: { left: 560, top: 0, width: 1600, height: 1600 }, widths: [560, 960] },
