@@ -17,9 +17,10 @@ const mono = (img) => img.grayscale().linear(1.12, -12);
 
 /** name, source, crop {left, top, width, height}, output widths, treatment */
 const jobs = [
-  // Hero: portrait crop for the desktop column, landscape crop for phones (served via <picture>).
-  { name: 'hero', src: 'hero-box-plyometrics.jpg', crop: { left: 120, top: 0, width: 1280, height: 1600 }, widths: [720, 1100, 1280] },
-  { name: 'hero-m', src: 'hero-box-plyometrics.jpg', crop: { left: 0, top: 360, width: 1600, height: 1000 }, widths: [640, 1000, 1400] },
+  // Hero stills = poster frames of the hero video (written by npm run video, already graded there).
+  // Portrait 4:5 for the desktop column, 16:10 for phones (served via <picture>, video plays on top).
+  { name: 'hero', src: 'hero-video-desktop.jpg', crop: { left: 0, top: 0, width: 864, height: 1080 }, widths: [720, 864], raw: true },
+  { name: 'hero-m', src: 'hero-video-mobile.jpg', crop: { left: 0, top: 0, width: 1728, height: 1080 }, widths: [640, 1000, 1400], raw: true },
   // Formats: square crops survive both the 4:3 (mobile) and 4:5 (desktop) frames.
   { name: 'fmt-functional', src: 'functional-medball-coaching.jpg', crop: { left: 520, top: 0, width: 1600, height: 1600 }, widths: [560, 960] },
   { name: 'fmt-strength', src: 'strength-back-squat.jpg', crop: { left: 560, top: 0, width: 1600, height: 1600 }, widths: [560, 960] },
@@ -37,21 +38,19 @@ const jobs = [
 for (const j of jobs) {
   for (const w of j.widths) {
     let img = sharp(`photos-src/${j.src}`).extract(j.crop).resize({ width: w });
-    img = j.mono ? mono(img) : grade(img);
+    if (!j.raw) img = j.mono ? mono(img) : grade(img);
     await img.webp({ quality: 76, effort: 5 }).toFile(`${OUT}/${j.name}-${w}.webp`);
   }
   console.log('✓', j.name);
 }
 
 // Open Graph / social card: 1200×630 JPEG with the wordmark, so shared links read as PULSAS.
-const ogPhoto = await grade(
-  sharp('photos-src/hero-box-plyometrics.jpg').extract({ left: 0, top: 170, width: 2400, height: 1260 }).resize(1200, 630),
-).toBuffer();
+const ogPhoto = await sharp('photos-src/hero-video-frame.jpg').extract({ left: 0, top: 36, width: 1920, height: 1008 }).resize(1200, 630).toBuffer();
 const ogText = Buffer.from(`<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
   <defs><linearGradient id="g" x1="1" x2="0"><stop offset="0" stop-color="#292A35" stop-opacity="0.92"/><stop offset="0.62" stop-color="#292A35" stop-opacity="0.35"/><stop offset="1" stop-color="#292A35" stop-opacity="0"/></linearGradient></defs>
   <rect width="1200" height="630" fill="url(#g)"/>
   <path transform="translate(882 0)" d="M64 92h40l18-46 30 86 20-60 10 20h60" fill="none" stroke="#EF593C" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
-  <text x="1136" y="420" text-anchor="end" font-family="Arial Narrow, Arial, sans-serif" font-weight="900" font-size="150" fill="#F3F0E9" letter-spacing="-4">PULSAS</text>
+  <text x="1136" y="420" text-anchor="end" font-family="Arial Narrow, Arial, sans-serif" font-weight="900" font-size="124" fill="#F3F0E9" letter-spacing="-3">PULSAS</text>
   <text x="1132" y="492" text-anchor="end" font-family="Arial, sans-serif" font-weight="700" font-size="34" fill="#EF593C">Judėk savo ritmu.</text>
   <text x="1132" y="560" text-anchor="end" font-family="Arial, sans-serif" font-size="24" fill="#F3F0E9" opacity="0.75">Funkcinio treniravimo studija · demonstracinis projektas</text>
 </svg>`);

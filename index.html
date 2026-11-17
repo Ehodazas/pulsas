@@ -19,18 +19,18 @@
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="PULSAS logotipas ir užrašas „Judėk savo ritmu“ ant treniruotės industrinėje salėje nuotraukos" />
+    <meta property="og:image:alt" content="PULSAS logotipas ir užrašas „Judėk savo ritmu“ ant grupinės treniruotės šviesioje salėje kadro" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="PULSAS — judėk savo ritmu" />
     <meta name="twitter:description" content="Butikinė funkcinio treniravimo studija: jėga, intervalai ir mobilumas su treneriu. Demonstracinis projektas." />
     <meta name="twitter:image" content="https://ehodazas.github.io/pulsas/og-image.jpg" />
-    <meta name="twitter:image:alt" content="PULSAS logotipas ir užrašas „Judėk savo ritmu“ ant treniruotės industrinėje salėje nuotraukos" />
+    <meta name="twitter:image:alt" content="PULSAS logotipas ir užrašas „Judėk savo ritmu“ ant grupinės treniruotės šviesioje salėje kadro" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,300..900;1,62..125,300..900&display=swap" rel="stylesheet" />
     <link rel="preload" as="image" media="(max-width: 899px)" href="img/hero-m-1000.webp" imagesrcset="img/hero-m-640.webp 640w, img/hero-m-1000.webp 1000w, img/hero-m-1400.webp 1400w" imagesizes="100vw" fetchpriority="high" />
-    <link rel="preload" as="image" media="(min-width: 900px)" href="img/hero-1100.webp" imagesrcset="img/hero-720.webp 720w, img/hero-1100.webp 1100w, img/hero-1280.webp 1280w" imagesizes="46vw" fetchpriority="high" />
+    <link rel="preload" as="image" media="(min-width: 900px)" href="img/hero-864.webp" imagesrcset="img/hero-720.webp 720w, img/hero-864.webp 864w" imagesizes="46vw" fetchpriority="high" />
   </head>
   <body>
     <a class="skip-link" href="#turinys">Pereiti prie turinio</a>
@@ -86,16 +86,25 @@
               <path d="M-40 430 C 120 250, 340 200, 640 260" /><path d="M-40 470 C 140 290, 360 240, 640 300" />
               <path d="M-40 510 C 160 330, 380 280, 640 340" /><path d="M-40 550 C 180 370, 400 320, 640 380" />
             </svg>
+            <!-- Poster still (always present; the only image under reduced motion / data saver). -->
             <picture>
-              <source media="(min-width: 900px)" srcset="/img/hero-720.webp 720w, /img/hero-1100.webp 1100w, /img/hero-1280.webp 1280w" sizes="46vw" width="1280" height="1600" />
+              <source media="(min-width: 900px)" srcset="/img/hero-720.webp 720w, /img/hero-864.webp 864w" sizes="46vw" width="864" height="1080" />
               <img
                 src="/img/hero-m-1000.webp"
                 srcset="/img/hero-m-640.webp 640w, /img/hero-m-1000.webp 1000w, /img/hero-m-1400.webp 1400w"
                 sizes="100vw"
                 width="1400" height="875"
-                alt="Sportininkė stumia medinę dėžę industrinėje salėje, šalia treniruojasi kitas sportininkas"
+                alt="Trys sportininkės treniruojasi šviesioje salėje: viena šoka, kitos laiko lentos padėtį"
                 fetchpriority="high" />
             </picture>
+            <!-- Short muted loop, loaded by src/sections/hero-video.ts only when motion is allowed. -->
+            <video class="hero__video" data-hero-video muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+            <button class="hero__motion" type="button" data-hero-motion aria-pressed="false" hidden>
+              <svg class="hero__motion-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1.5"/><rect x="14" y="5" width="4" height="14" rx="1.5"/></svg>
+              <svg class="hero__motion-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>
+              <span class="visually-hidden" data-hero-motion-label>Sustabdyti vaizdo įrašą</span>
+            </button>
+            <figcaption class="hero__credit">Iliustracinis vaizdas · ne PULSAS klientai</figcaption>
           </figure>
           <div class="hero__copy">
             <p class="hero__lead">Grupinės treniruotės su treneriu iki keturiolikos žmonių. Jėga, ištvermė ir mobilumas — su aiškia struktūra ir žmonėmis, kurie laukia tavęs kitą savaitę.</p>

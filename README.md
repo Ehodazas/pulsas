@@ -63,6 +63,10 @@ The coach portraits are stock photos of models standing in for illustrative prof
 
 If an image fails to load, its frame shows a neutral pattern, so the layout does not shift.
 
+## Hero video
+
+The hero plays a short (7.6 s), muted, looping clip over the poster still: 1.2 MB on desktop (4:5 crop), 0.8 MB on phones (16:10). It is **not loaded** under `prefers-reduced-motion` or the browser's data-saver mode, so those visitors see the still image only. A visible pause button lets anyone stop it (WCAG 2.2.2), and the clip pauses while the hero is off-screen. The clip is labelled as illustrative stock footage. To rebuild it, see `scripts/prepare-video.mjs` (`npm i --no-save ffmpeg-static`, then `npm run video` and `npm run images`).
+
 ## Ritmo skalė
 
 The rhythm scale under the formats compares the four formats as pulse lines drawn in the same style as the logo. Each line shows how a class is structured, meaning when people work and when they recover, along with tempo, group size (read from the timetable data) and how suitable the format is for beginners. The lines are **illustrative**. They do not measure heart rate or any other physiological value, and the page says so. Each line draws once when it scrolls into view and stays static under `prefers-reduced-motion`.

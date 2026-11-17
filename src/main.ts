@@ -1,10 +1,12 @@
 import './styles.css';
 import { renderCoaches, renderFormats, renderInfo, renderNextUp, renderPricing, renderRhythm } from './sections/content';
+import { initHeroVideo } from './sections/hero-video';
 import { initRegistration } from './sections/registration';
 import { initTimetable } from './sections/timetable';
 import { $, $$, prefersReducedMotion } from './lib/util';
 
 initRegistration();
+initHeroVideo();
 initTimetable();
 renderNextUp();
 renderFormats();
