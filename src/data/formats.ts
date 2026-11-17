@@ -78,7 +78,7 @@ export const formats: TrainingFormat[] = [
     forWho:
       'Turintiems bazinį fizinį pasirengimą ir norintiems ištvermės, tempo ir gero prakaito po darbo.',
     inSession:
-      'Trumpi intensyvūs darbo intervalai ir trumpas poilsis — šokdynė, irklavimo treniruoklis, girios. Kiekvienas pats renkasi tempą.',
+      'Trumpi intensyvūs darbo intervalai ir trumpas poilsis — šokdynės, irklavimo treniruoklis, girios. Kiekvienas pats renkasi tempą.',
     intensity: 5,
     intensityLabel: 'Aukštas',
     duration: 45,
@@ -88,7 +88,7 @@ export const formats: TrainingFormat[] = [
       structure: 'Trumpi intervalai, trumpas poilsis',
       beginners: 'Geriau po kelių kitų treniruočių',
     },
-    image: { base: 'fmt-hiit', widths: [560, 960], alt: 'Sportininkė šokinėja per šokdynę šviesioje salėje prie didelių langų' },
+    image: { base: 'fmt-hiit', widths: [560, 960], alt: 'Du sportininkai šokinėja per šokdynes prieblandoje apšviestoje salėje' },
   },
   {
     id: 'mobility',
@@ -98,7 +98,7 @@ export const formats: TrainingFormat[] = [
     forWho:
       'Visiems — po sunkios savaitės, ilgų valandų prie stalo ar kaip atsvara jėgos treniruotėms.',
     inSession:
-      'Sąnarių mobilumas, kontroliuojamas tempimas ir kvėpavimas. Treneris padeda pajusti padėtis rankomis, jei nori. Kilimėliai ir volai — vietoje.',
+      'Sąnarių mobilumas, kontroliuojamas tempimas ir kvėpavimas. Treneris pataiso padėtis, jei reikia. Kilimėliai ir volai — vietoje.',
     intensity: 1,
     intensityLabel: 'Žemas',
     duration: 50,
@@ -108,7 +108,7 @@ export const formats: TrainingFormat[] = [
       structure: 'Nepertraukiamas, be šuolių',
       beginners: 'Tinka nuo pirmos dienos',
     },
-    image: { base: 'fmt-mobility', widths: [560, 960], alt: 'Treneris padeda gulinčiam sportininkui ištempti koją ant kilimėlio' },
+    image: { base: 'fmt-mobility', widths: [560, 960], alt: 'Grupė atlieka tempimo pratimus ant medinių grindų tamsioje studijoje' },
   },
 ];
 

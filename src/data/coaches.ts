@@ -35,7 +35,7 @@ export const coaches: Coach[] = [
     quote: 'Stiprybė auga iš nuobodžių, gerai atliktų pakartojimų.',
     bio: 'Atsakingas už jėgos programą: kiekvienas ciklas trunka kelias savaites, kad progresas būtų matomas ir saugus.',
     formats: ['strength', 'functional'],
-    image: { base: 'coach-lukas', widths: [480, 800], alt: 'Treneris Lukas baltais marškinėliais be rankovių, portretas tamsiame fone' },
+    image: { base: 'coach-lukas', widths: [480, 800], alt: 'Treneris Lukas sukryžiavęs rankas šypsosi jėgos zonoje' },
   },
   {
     id: 'dovydas',
